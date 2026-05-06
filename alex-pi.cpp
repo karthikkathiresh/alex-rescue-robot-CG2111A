@@ -102,7 +102,7 @@ void handlePacket(TPacket *packet)
 	switch(packet->packetType)
 	{
 		case PACKET_TYPE_COMMAND:
-				// Only we send command packets, so ignore
+			// Only we send command packets, so ignore
 			break;
 
 		case PACKET_TYPE_RESPONSE:
@@ -179,74 +179,6 @@ void getParams_variable(TPacket *commandPacket)
 	scanf("%d", &commandPacket->params[0]);
 	flushInput();
 }
-
-/*
-void sendCommand(char command)
-{
-	TPacket commandPacket;
-
-	commandPacket.packetType = PACKET_TYPE_COMMAND;
-
-	switch(command)
-	{
-		case 'f':
-		case 'F':
-			getParams(&commandPacket);
-			commandPacket.command = COMMAND_FORWARD;
-			sendPacket(&commandPacket);
-			break;
-
-		case 'b':
-		case 'B':
-			getParams(&commandPacket);
-			commandPacket.command = COMMAND_REVERSE;
-			sendPacket(&commandPacket);
-			break;
-
-		case 'l':
-		case 'L':
-			getParams(&commandPacket);
-			commandPacket.command = COMMAND_TURN_LEFT;
-			sendPacket(&commandPacket);
-			break;
-
-		case 'r':
-		case 'R':
-			getParams(&commandPacket);
-			commandPacket.command = COMMAND_TURN_RIGHT;
-			sendPacket(&commandPacket);
-			break;
-
-		case 's':
-		case 'S':
-			commandPacket.command = COMMAND_STOP;
-			sendPacket(&commandPacket);
-			break;
-
-		case 'c':
-		case 'C':
-			commandPacket.command = COMMAND_CLEAR_STATS;
-			commandPacket.params[0] = 0;
-			sendPacket(&commandPacket);
-			break;
-
-		case 'g':
-		case 'G':
-			commandPacket.command = COMMAND_GET_STATS;
-			sendPacket(&commandPacket);
-			break;
-
-		case 'q':
-		case 'Q':
-			exitFlag=1;
-			break;
-
-		default:
-			printf("Bad command\n");
-
-	}
-}
-*/
 
 void sendCommand(char command) 
 {
@@ -401,14 +333,13 @@ void sendCommand(char command)
 	}
 }
 
+/*
+ * This function requires
+ * #include <stdio.h>
+ * #include <termios.h>
+ * #include <unistd.h>
+ */
 char getch(void) {
-	/*
-	 * This function requires
-	 * #include <stdio.h>
-	 * #include <termios.h>
-	 * #include <unistd.h>
-	 */
-
 	fflush(stdout); 
 	struct termios raw; 
 	tcgetattr(STDIN_FILENO, &raw); 
@@ -435,7 +366,6 @@ int main()
 	// Spawn receiver thread
 	pthread_t recv;
 
-
 	pthread_create(&recv, NULL, receiveThread, NULL);
 
 	// Send a hello packet
@@ -446,24 +376,12 @@ int main()
 
 	while(!exitFlag)
 	{
-         	/*	
-		char ch;
-		printf("Command (f=forward, b=reverse, l=turn left, r=turn right, s=stop, c=clear stats, g=get stats q=exit,k=knn-colour)\n");
-		scanf("%c", &ch);
-
-		// Purge extraneous characters from input stream
-		flushInput();
-
-		sendCommand(ch);
-		*/
-
 		printf("WASD Control (w/a/s/d), nudge (i/j/k/l), q = quit, v = colour, m = open, n = close\n");
         usleep(100000);
 		char ch = getch();
 		usleep(100000);	
 		sendCommand(ch); 
 		usleep(100000);	
-
 	}
 
 	printf("Closing connection to Arduino.\n");
