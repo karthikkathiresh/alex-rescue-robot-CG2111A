@@ -18,6 +18,7 @@ Alex uses a two-tier computing architecture:
 Communication between the RPi and Arduino is handled over UART, using a custom packet structure with magic number and checksum-based error detection. 
 
 ## Hardware Components
+
 | Component | Purpose |
 |---|---|
 | RPLidar | Environment mapping (SLAM) |
@@ -29,7 +30,9 @@ Communication between the RPi and Arduino is handled over UART, using a custom p
 | Arduino Mega 2560 | Low-level motor and sensor control |
 
 ## Controls (WASD Scheme)
+
 ### Movement
+
 | Key | Action |
 |---|---|
 | `W` | Move Forward |
@@ -39,6 +42,7 @@ Communication between the RPi and Arduino is handled over UART, using a custom p
 | `Space` | Stop immediately |
 
 ### Nudging (Precise Control)
+
 | Key | Action |
 |---|---|
 | `i` / `k` | Nudge Forward / Backward (200ms) |
@@ -46,6 +50,7 @@ Communication between the RPi and Arduino is handled over UART, using a custom p
 | `I/J/K/L` | Same as above with custom input duration/angle |
 
 ### Miscellaneous
+
 | Key | Action |
 |---|---|
 | `V` | Activate colour sensor |
@@ -70,6 +75,7 @@ Packets use a magic number (`0xFCFDFEFF`) and XOR checksum for validation. Inval
 ## File Structure
 
 ### Arduino (`/Alex`)
+
 | File | Description |
 |---|---|
 | `Alex.ino` | Main Arduino firmware — motor control, packet handling |
@@ -82,6 +88,7 @@ Packets use a magic number (`0xFCFDFEFF`) and XOR checksum for validation. Inval
 | `samples.h` | Colour sensor calibration samples |
 
 ### Raspberry Pi
+
 | File | Description |
 |---|---|
 | `alex-pi.cpp` | Main RPi control program — tele-operator interface |
@@ -91,12 +98,14 @@ Packets use a magic number (`0xFCFDFEFF`) and XOR checksum for validation. Inval
 | `packet.h` / `constants.h` | Shared packet and constants definitions |
 
 ### Colour Sensor (`/ColourSensorMega`)
+
 | File | Description |
 |---|---|
 | `ColourSensorMega.ino` | Standalone colour sensor sketch |
 | `ColourSensorMega.h` | Colour sensor header |
 
 ### Scripts
+
 | File | Description |
 |---|---|
 | `START_ALEX_PI.sh` | Launches the RPi control program |
